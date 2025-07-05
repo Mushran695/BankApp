@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Withdraw Money</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .message {
+      text-align: center;
+      margin-top: 10px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Withdraw Money</h2>
+  <form id="withdrawForm" action="withdraw.php" method="post">
+  <label for="account">Account Number:</label>
+  <input type="text" id="account" name="account" required>
+  
+  <label for="amount">Withdraw Amount:</label>
+  <input type="number" id="amount" name="amount" required>
+
+  <button type="submit">Withdraw</button>
+</form>
+
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+  document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+    const account = document.querySelector('input[name="account"]').value;
+    const amount = document.querySelector('input[name="amount"]').value;
+
+    // Save to localStorage as transaction history
+    let history = JSON.parse(localStorage.getItem('transactions')) || [];
+    const newTx = {
+      type: 'withdrawal',
+      account,
+      amount: parseFloat(amount),
+      date: new Date().toLocaleString()
+    };
+    history.push(newTx);
+    localStorage.setItem('transactions', JSON.stringify(history));
+  });
+</script>
+
+</body>
+</html>

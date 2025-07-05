@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Deposit Money</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <div class="form-container">
+    <h2>Deposit Amount</h2>
+    <form id="depositForm" action="deposit.php" method="POST">
+      <label for="account_no">Account Number:</label>
+      <input type="text" id="account_no" name="account_no" required />
+
+      <label for="amount">Amount to Deposit:</label>
+      <input type="number" id="amount" name="amount" required />
+
+      <button type="submit">Deposit</button>
+    </form>
+
+    <div id="confirmation" style="display: none;">
+      <h3>✅ Deposit Successful</h3>
+      <p><strong>Amount:</strong> ₹<span id="confirmAmount"></span></p>
+      <p><strong>Account:</strong> <span id="confirmAccount"></span></p>
+    </div>
+
+    <div id="historySection">
+      <h3>💰 Transaction History</h3>
+      <ul id="txnList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('depositForm');
+    const confirmBox = document.getElementById('confirmation');
+    const txnList = document.getElementById('txnList');
+
+    form.addEventListener('submit', function (e) {
+      const acc = document.getElementById('account_no').value;
+      const amt = document.getElementById('amount').value;
+
+      // Store to local history (just for user)
+      const time = new Date().toLocaleString();
+      const li = document.createElement('li');
+      li.textContent = `+ ₹${amt} deposited at ${time} to A/C ${acc}`;
+      txnList.appendChild(li);
+
+      // Show confirmation
+      document.getElementById('confirmAmount').textContent = amt;
+      document.getElementById('confirmAccount').textContent = acc;
+      confirmBox.style.display = 'block';
+
+      // Let the form submit normally to PHP after this
+    });
+  </script>
+</body>
+</html>
